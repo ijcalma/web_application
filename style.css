@@ -1,0 +1,133 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 25px;
+  overflow: hidden;
+  background-color: #333;
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: inline;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  padding: 36px 15px 36px 14px; 
+  margin-top: 10px;
+  font-size: 14px;}
+
+li a:hover {
+  background-color: #111;
+  padding: 36px 15px 36px 14px; 
+}
+.active {
+	background-color: black;
+	padding: 36px 15px 36px 14px; 
+}
+.search {
+	width: 150px;
+	height: 23px;
+	margin-left: 100px;
+
+}
+.searchbtn {
+	background-color: white;
+	padding: 5px;
+	
+}
+
+.container {
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.55);
+	padding: 25px;
+}
+.form{
+	margin-left: 35px;
+	width: auto;
+}
+.label{
+	margin-left: 425px;
+	margin-right: auto;
+}
+.table {
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1000px;
+	text-align: center;
+}
+th, td, tr {
+	padding: 10px;
+}
+tr:hover {
+	background-color: lightgrey;
+	border: black;
+}
+a{
+	color: white;
+	text-decoration: none;
+}
+#preview {
+	margin-left: auto;
+	margin-right: auto;
+}
+.container2 {
+	position: relative;
+    display: flex;
+    width: max-content;
+    height: max-content;
+    justify-content: center;
+    align-items: center;
+}
+.add_student{
+	padding: 15px;
+	border: none;
+	color: white;
+	background-color: green;
+}
+
+.time {
+	float: right;
+}
+.time_in{
+	padding: 15px;
+	border: none;
+	color: white;
+	background-color: blue;
+}
+
+.time_out{
+	padding: 15px;
+	border: none;
+	color: white;
+	background-color: red;
+}
+
+.addform{
+	margin-left: 350px;
+	margin-right: auto;
+	padding: 25px;
+	width: 1000px;
+}
+.submit{
+	padding: 15px;
+	border: none;
+	color: white;
+	background-color: green;
+	border-radius: 10px;
+	margin-left:210px;
+}
+
+.submit:hover{
+	color: white;
+	background-color: darkgreen;
+}
