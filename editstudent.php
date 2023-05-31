@@ -1,44 +1,25 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "admin";
-    $dbname = "attendance_db";
-
-    global $idnum;
-    $conn = new mysqli($servername, $username, $password, $dbname);  
-
-    $search = isset($_GET['search']) ? $_GET['search']: null;
-
-    $results_per_page = 10;
+    include 'connection.php';
 
     if(isset($_POST['submit'])){
     //  Get form data
-        $idnum = mysqli_real_escape_string($conn,$_POST['idnum']);
-        $name = mysqli_real_escape_string($conn,$_POST['name']);
+        $idnum = mysqli_real_escape_string($conn, $_GET['id']);
+        $firstname = mysqli_real_escape_string($conn,$_POST['firstname']);
+        $lastname = mysqli_real_escape_string($conn,$_POST['lastname']);
+        $middlename = mysqli_real_escape_string($conn,$_POST['middlename']);
+        $extname = mysqli_real_escape_string($conn,$_POST['extname']);
         $course = mysqli_real_escape_string($conn,$_POST['course']);
         $year = mysqli_real_escape_string($conn,$_POST['year']);
         $block = mysqli_real_escape_string($conn,$_POST['block']);
         $date = date('Y-m-d H:i:s');
 
-        $query = "UPDATE student_info SET name='$name', course='$course', year='$year', block='$block' WHERE id='$idnum'";
-        if(mysqli_query($conn, $query)){
+        $query1 = "UPDATE student_info SET id ='$idnum', firstname='$firstname', lastname='$lastname', middlename='$middlename', extname='$extname', course='$course', year='$year', block='$block' WHERE id='$idnum'";
+        if(mysqli_query($conn, $query1)){
             header("Location: student_info.php");
+            exit();
         } else{
             echo "Error updating record: " . mysqli_error($conn);
         }
-    }
-
-
-    if(!empty($search)){
-        $query = 'SELECT id, name, course, year, block 
-                  FROM attendance
-                  INNER JOIN student_info ON attendance.student_id = student_info.id
-                  WHERE student_info.name LIKE "%'.$search.'%" OR student_info.id LIKE "%'.$search.'%" OR student_info.course LIKE "%'.$search.'%" OR student_info.year LIKE "%'.$search.'%" OR student_info.block LIKE "%'.$search.'%" ORDER BY name';
-
-    }else{
-        $query = 'SELECT id, name, course, year, block
-                  FROM attendance
-                  INNER JOIN student_info ON attendance.student_id = student_info.id';
     }
 
     $row=array();
@@ -55,32 +36,20 @@
     <link rel="stylesheet" href="style.css" />    
   </head>
     <body style="font-family: sans-serif;">
-        <nav>
-                <ul class="navbar-nav">
-                    <li> 
-                        <a href="index.php"> Student Attendance List</a>
-                    </li>
-                    <li>
-                        <a href="student_info.php" class="active"> Student List</a>
-                    </li>
-                    <li>
-                        <a href="attendance_check.php">Attendance Checklist</a>
-                    </li>
-                    <li>
-                        <a href="faculty.php">Faculty Adviser</a>
-                    </li>
-                    <form action="index.php" method="GET" class="form">
-                        <input type="text" name="search" class="search" placeholder="Enter Student's Name" required />
-                        <input type="submit" value="Search" class="searchbtn" />
-                    </form>
-                </ul>
-            </nav>
+        <?php include 'navbar.php'; ?>
+    </nav>
         <div class="container">
-            <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>" class="addform">
+        <form method="POST" action="<?php $_SERVER['PHP_SELF']; ?>" class="addform">
       <b> Enter Student ID Number: <br></b>
       <input type ="text" name="idnum" value="<?php echo $row['id']; ?>"> <br><br>
-      <b> Enter student name: <br></b>
-      <input type ="text" name="name" value="<?php echo $row['name']; ?>"> <br><br>
+      <b> Enter student First name: <br></b>
+      <input type ="text" name="firstname" value="<?php echo $row['firstname']; ?>"> <br><br>
+      <b> Enter student Last name: <br></b>
+      <input type ="text" name="lastname" value="<?php echo $row['lastname']; ?>"> <br><br>
+      <b> Enter student middle name: <br></b>
+      <input type ="text" name="middlename" value="<?php echo $row['middlename']; ?>"> <br><br>
+      <b> Enter student extension name: <br></b>
+      <input type ="text" name="extname" value="<?php echo $row['extname']; ?>"> <br><br>
       <b>Course:<br></b>
       <select id = "course" name = "course">
         <option value="none" selected disabled hidden>Select Course:</option>
@@ -106,8 +75,8 @@
         <option id="b3" value="Block 3" <?php if ($row['block'] == 'Block 3') echo ' selected="selected"'; ?>>Block 3</option>
         <option id="b4" value="Block 4" <?php if ($row['block'] == 'Block 4') echo ' selected="selected"'; ?>>Block 4</option>
         <option id="b5" value="Block 5" <?php if ($row['block'] == 'Block 5') echo ' selected="selected"'; ?>>Block 5</option><br><br>
-      </select><br><br>
-        <a href="index.php"> <button name = "submit" id="submits" value="Submit" class="submit">Submit</button></a>
+        </select><br><br>
+        <button name = "submit" id="submits" value="submit" class="submit">Submit</button></a>
         </form>
         </div>
          

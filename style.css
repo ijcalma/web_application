@@ -131,3 +131,26 @@ a{
 	color: white;
 	background-color: darkgreen;
 }
+.pagination {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination li {
+    display: inline;
+}
+
+.pagination li a {
+    display: inline-block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid #ddd;
+}
+
+.pagination li.active a {
+    background-color: #333;
+    color: #fff;
+}
+
