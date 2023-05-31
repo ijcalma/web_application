@@ -25,7 +25,7 @@
         VALUES ('$idnum', '$lastname', '$firstname', '$middlename', '$extname' ,'$course', '$year', '$block')";
     
     //Execute query
-        if(mysqli_query($conn, $query) && mysqli_query($conn, $query2) && mysqli_query($conn, $query3)){
+        if(mysqli_query($conn, $query)){
            $tempDir = "QRCODES";  
           // Generate a unique file name for the QR code image
           $fileName = $idnum. '.png';

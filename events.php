@@ -1,36 +1,32 @@
 <?php
 include 'connection.php';
 
-$resultsPerPage = 10;
+    $result_per_page = 10;
 
-// Calculate the current page number
-if (isset($_GET['page']) && is_numeric($_GET['page'])) {
-    $currentPage = $_GET['page'];
-} else {
-    $currentPage = 1;
-}
+    $query_01 = "SELECT * FROM events";
+
+    $result_01 = mysqli_query($conn, $query_01);
+
+    $resultRows = mysqli_num_rows($result_01);
+
+    $number_of_page = ceil($resultRows / $result_per_page);
+
+    if(!isset($_GET['page'])){
+        $page = 1;
+    }else{
+        $page = $_GET['page'];
+
+    }
+    $first_page_number = ($page - 1) * $result_per_page;
+    $query = "SELECT event_id, event_name, type, half_day_type, eventdate FROM events ORDER BY event_name ASC LIMIT $first_page_number, $result_per_page";
+
+
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Construct the base query
-$query = "SELECT event_id, event_name, type, half_day_type, eventdate FROM events";
-
-// Add search condition if applicable
 if (!empty($search)) {
     $query .= " WHERE event_name LIKE '%$search%' OR event_id LIKE '%$search%' OR type LIKE '%$search%' OR half_day_type LIKE '%$search%' OR eventdate LIKE '%$search%'";
 }
 
-// Execute the query to count total records
-$resultTotalRecords = mysqli_query($conn, $query);
-$totalRecords = mysqli_num_rows($resultTotalRecords);
-
-// Calculate the total number of pages
-$totalPages = ceil($totalRecords / $resultsPerPage);
-
-// Calculate the starting record index for the current page
-$startingRecord = ($currentPage - 1) * $resultsPerPage;
-
-// Modify the query to include pagination
-$query .= " LIMIT $startingRecord, $resultsPerPage";
 
 // Execute the modified query
 $result = mysqli_query($conn, $query);
@@ -90,26 +86,11 @@ mysqli_close($conn);
                 <?php endforeach ?>
             </tbody>
         </table>
-        <div style="margin-top: 20px;">
-            <?php if ($totalPages > 1): ?>
-            <ul class="pagination">
-                <?php if ($currentPage > 1): ?>
-                    <?php echo "Current Page: " . $currentPage; ?>
-                    <li><a href="?page=<?php echo ($currentPage - 1); ?>&search=<?php echo $search; ?>">Previous</a></li>
-                <?php endif; ?> 
-                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <?php if ($i === $currentPage): ?>
-                        <li class="active"><a href="?page=<?php echo $i; ?>&search=<?php echo $search; ?>"><?php echo $i; ?></a></li>
-                    <?php else: ?>
-                        <li><a href="?page=<?php echo $i; ?>&search=<?php echo $search; ?>"><?php echo $i; ?></a></li>
-                    <?php endif; ?>
-                <?php endfor; ?>
-                <?php if ($currentPage < $totalPages): ?>
-                    <li><a href="?page=<?php echo ($currentPage + 1); ?>&search=<?php echo $search; ?>">Next</a></li>
-                <?php endif; ?>
-            </ul>
-            <?php endif; ?>
-        </div>
+        <?php 
+                for ($page = 1; $page <= $number_of_page; $page++) {
+                  echo '<a href="events.php?page=' . $page . '" style="margin-right: 5px; padding: 5px; color: black;">' . $page . '</a>';
+                }
+              ?>
     </div>
 </body>
 </html>

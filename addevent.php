@@ -1,8 +1,6 @@
 <?php
   include 'connection.php';
-
-  $total = 0;
-  $attendance = 0;
+  
   if(isset($_POST['submit'])){
     //  Get form data
         $name = mysqli_real_escape_string($conn, $_POST['event_name']);

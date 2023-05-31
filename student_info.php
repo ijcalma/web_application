@@ -3,24 +3,32 @@
 
     global $idnum;
 
+    $result_per_page = 10;
+
+    $query_01 = "SELECT * FROM student_info";
+
+    $result_01 = mysqli_query($conn, $query_01);
+
+    $resultRows = mysqli_num_rows($result_01);
+
+    $number_of_page = ceil($resultRows / $result_per_page);
+
+    if(!isset($_GET['page'])){
+        $page = 1;
+    }else{
+        $page = $_GET['page'];
+
+    }
+    $first_page_number = ($page - 1) * $result_per_page;
+    $query = "SELECT id, firstname, lastname, course, year, block from student_info ORDER BY lastname ASC LIMIT $first_page_number, $result_per_page";
+
     $search = isset($_GET['search']) ? $_GET['search']: null;
-
-    $results_per_page = 10;
-
-    $query = "SELECT id, firstname, lastname, extname, course, year, block, event_id, event_name from attendance, student_info, events";
-    $result = mysqli_query($conn, $query);
-    $number_of_result = mysqli_num_rows($result);
-
-    $number_of_page = ceil($number_of_result / $results_per_page);
 
     if(!empty($search)){
         $query = 'SELECT id, firstname, lastname, course, year, block from student_info
                   WHERE firstname LIKE "%'.$search.'%" OR lastname LIKE "%'.$search.'%" OR id LIKE "%'.$search.'%" OR course LIKE "%'.$search.'%" OR year LIKE "%'.$search.'%" OR block LIKE "%'.$search.'%" ORDER BY lastname';
 
-    }else{
-        $query = "SELECT id, firstname, lastname, course, year, block from student_info";
     }
-
 
     $result = mysqli_query($conn, $query);
     $records = array();
@@ -86,6 +94,11 @@
                         <?php endforeach ?>     
                     </tbody>
             </table>
+            <?php 
+                for ($page = 1; $page <= $number_of_page; $page++) {
+                  echo '<a href="student_info.php?page=' . $page . '" style="margin-right: 5px; padding: 5px; color: black;">' . $page . '</a>';
+                }
+              ?>
         </div>
     </body>
 </html>
